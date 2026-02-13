@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.whistlefinder">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Feature requirement -->
+    <uses-feature android:name="android.hardware.microphone" android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:label="Whistle Finder"
+        android:roundIcon="@android:drawable/ic_btn_speak_now"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        tools:targetApi="31">
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Schedule Activity -->
+        <activity
+            android:name=".ScheduleActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            android:label="Schedule Settings" />
+
+        <!-- Custom Pattern Activity -->
+        <activity
+            android:name=".CustomPatternActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            android:label="Custom Pattern" />
+
+        <!-- Alarm Activity -->
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true" />
+
+        <!-- Whistle Detection Service -->
+        <service
+            android:name=".WhistleDetectionService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="microphone"
+            android:stopWithTask="false" />
+
+        <!-- Schedule Receiver -->
+        <receiver
+            android:name=".ScheduleReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
