@@ -32,7 +32,7 @@ jobs:
         distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
         EOF
     
-    - name: Build APK
+    - name: Build with Gradle
       run: ./gradlew assembleDebug --stacktrace
     
     - name: Upload APK
