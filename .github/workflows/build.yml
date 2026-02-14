@@ -17,18 +17,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
     
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew || true
-    
-    - name: Create gradlew if missing
+    - name: Create gradlew
       run: |
-        if [ ! -f gradlew ]; then
-          cat > gradlew << 'EOF'
+        cat > gradlew << 'EOF'
         #!/bin/sh
         exec gradle "$@"
         EOF
-          chmod +x gradlew
-        fi
+        chmod +x gradlew
     
     - name: Create gradle wrapper
       run: |
@@ -37,7 +32,7 @@ jobs:
         distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
         EOF
     
-    - name: Build with Gradle
+    - name: Build APK
       run: ./gradlew assembleDebug --stacktrace
     
     - name: Upload APK
@@ -45,38 +40,3 @@ jobs:
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
-```
-
-5. Click **"Commit changes..."** button (green button top right)
-6. Click **"Commit changes"** again in the popup
-
----
-
-### Step 3: Go Back to Actions
-
-1. Click the **"Actions"** tab again
-2. Now you should see **"Build APK"** appear on the LEFT sidebar
-3. Click on **"Build APK"**
-4. Click the blue **"Run workflow"** button on the right
-5. Click the green **"Run workflow"** button in the dropdown
-6. **Wait 5-10 minutes** for the build to complete
-
----
-
-### Step 4: Watch the Build
-
-You'll see:
-- 🟡 **Yellow circle** = Building (be patient!)
-- ✅ **Green checkmark** = Success! Download your APK!
-- ❌ **Red X** = Failed (tell me the error)
-
----
-
-## 📝 QUICK SUMMARY
-```
-1. Code tab → Add file → Create new file
-2. Filename: .github/workflows/build.yml
-3. Paste the code above
-4. Commit changes
-5. Actions tab → Build APK → Run workflow
-6. Wait → Download from Artifacts
